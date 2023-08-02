@@ -3,6 +3,7 @@ import re
 from django.contrib.auth.models import AbstractBaseUser, BaseUserManager, PermissionsMixin
 from django.core import validators
 from django.db import models
+from django.contrib.auth.hashers import make_password
 
 
 class CustomUserManager(BaseUserManager):
@@ -49,6 +50,11 @@ class CustomUser(AbstractBaseUser, PermissionsMixin):
 
     def __str__(self):
         return self.email
+
+    def save(self, *args, **kwargs):
+        if not self.id and not self.password.startswith('pbkdf2_'):
+            self.password = make_password(self.password)
+        super(CustomUser, self).save(*args, **kwargs)
 
 
 class UserProfile(models.Model):
