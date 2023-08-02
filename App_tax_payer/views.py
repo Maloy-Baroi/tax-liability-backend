@@ -2,6 +2,7 @@
 from rest_framework import generics
 from .models import TaxPayer, MonthlyTaxPaymentCheck
 from .serializers import TaxPayerSerializer, MonthlyTaxPaymentCheckSerializer
+from rest_framework.permissions import IsAuthenticated
 
 
 class TaxPayerListCreateView(generics.ListCreateAPIView):
