@@ -8,6 +8,10 @@ from rest_framework.permissions import IsAuthenticated
 class TaxPayerListCreateView(generics.ListCreateAPIView):
     queryset = TaxPayer.objects.all()
     serializer_class = TaxPayerSerializer
+    permission_classes = [IsAuthenticated]
+
+    def perform_create(self, serializer):
+        serializer.save(user=self.request.user)
 
 
 class TaxPayerRetrieveUpdateView(generics.RetrieveUpdateAPIView):
