@@ -1,10 +1,7 @@
 # urls.py
 from django.urls import path
-from .views import NotificationListView, WarningLetterListCreateView, WarningLetterRetrieveUpdateDestroyView
+from .views import NotificationListView
 
 urlpatterns = [
     path('notifications/', NotificationListView.as_view(), name='notification-list'),
-    path('warning-letters/', WarningLetterListCreateView.as_view(), name='warning-letter-list-create'),
-    path('warning-letters/<int:pk>/', WarningLetterRetrieveUpdateDestroyView.as_view(),
-         name='warning-letter-retrieve-update-destroy'),
 ]

@@ -11,11 +11,3 @@ class NotificationListView(generics.ListAPIView):
     serializer_class = NotificationSerializer
 
 
-class WarningLetterListCreateView(generics.ListCreateAPIView):
-    queryset = WarningLetter.objects.all()
-    serializer_class = WarningLetterSerializer
-
-
-class WarningLetterRetrieveUpdateDestroyView(generics.RetrieveUpdateDestroyAPIView):
-    queryset = WarningLetter.objects.all()
-    serializer_class = WarningLetterSerializer
