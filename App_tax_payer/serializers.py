@@ -9,7 +9,8 @@ class TaxPayerSerializer(serializers.ModelSerializer):
         fields = '__all__'
 
         extra_kwargs = {
-            'tin': {'read_only': True}
+            'tin': {'read_only': True},
+            'user': {'read_only': True}
         }
 
 

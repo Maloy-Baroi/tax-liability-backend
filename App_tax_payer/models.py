@@ -66,7 +66,7 @@ class TaxPayer(models.Model):
         today = timezone.now().date()
 
         # Check if the taxpayer has made monthly tax payments for this month
-        if not self.taxpayment_set.filter(payment_date__month=today.month).exists():
+        if not self.monthlytaxpaymentcheck_set.filter(payment_date__month=today.month).exists():
             # Send a notification if the taxpayer has not made the payment
             message = f"Monthly tax payment is pending for {today.strftime('%B %Y')}."
             Notification.objects.create(tax_payer=self, message=message)
