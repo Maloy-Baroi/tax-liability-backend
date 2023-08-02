@@ -1,4 +1,7 @@
+import re
+
 from django.contrib.auth.models import AbstractBaseUser, BaseUserManager, PermissionsMixin
+from django.core import validators
 from django.db import models
 
 
@@ -24,10 +27,18 @@ class CustomUserManager(BaseUserManager):
         return self.create_user(email, password, **extra_fields)
 
 
+def validate_password(value):
+    pattern = r"^(?=.*\d)(?=.*[A-Z])(?=.*\W).{8,}$"
+    if not re.match(pattern, value):
+        raise validators.ValidationError(
+            "Password must be at least 8 characters long and contain "
+            "at least one digit, one uppercase letter, and one symbol."
+        )
+
+
 class CustomUser(AbstractBaseUser, PermissionsMixin):
     email = models.EmailField(unique=True)
-    first_name = models.CharField(max_length=30)
-    last_name = models.CharField(max_length=30)
+    password = models.CharField(max_length=100, validators=[validate_password])
     is_active = models.BooleanField(default=True)
     is_staff = models.BooleanField(default=False)
 
@@ -39,8 +50,10 @@ class CustomUser(AbstractBaseUser, PermissionsMixin):
     def __str__(self):
         return self.email
 
-    def get_full_name(self):
-        return f"{self.first_name} {self.last_name}"
 
-    def get_short_name(self):
-        return self.first_name
+class UserProfile(models.Model):
+    user = models.OneToOneField(CustomUser, on_delete=models.CASCADE)
+    full_name = models.CharField(max_length=100)
+    employee_id = models.CharField(max_length=50)
+    salary = models.PositiveIntegerField(default=0)
+

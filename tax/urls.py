@@ -20,7 +20,7 @@ from django.contrib import admin
 from django.urls import path, include
 
 urlpatterns = [
-    path('admin/', admin.site.urls),
+    path('super/admin/', admin.site.urls),
     path('auth/', include('App_auth.urls')),
     path('notification/', include('App_notification.urls')),
     path('tax/calculate/', include('App_tax_calculate.urls')),
