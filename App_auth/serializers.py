@@ -1,5 +1,5 @@
 from rest_framework.serializers import ModelSerializer
-from App_auth.models import CustomUser
+from App_auth.models import CustomUser, UserProfile
 
 
 class CustomUserSerializer(ModelSerializer):
@@ -11,3 +11,11 @@ class CustomUserSerializer(ModelSerializer):
             'id': {'read_only': True},
         }
 
+class UserProfileSerializer(ModelSerializer):
+    class Meta:
+        model = UserProfile
+        fields = '__all__'
+
+        extra_kwargs = {
+            'user': {'read_only': True}
+        }
