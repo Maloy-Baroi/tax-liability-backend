@@ -35,7 +35,7 @@ class CustomTokenObtainPairView(TokenObtainPairView):
             try:
                 profile = UserProfile.objects.get(user=user_id)
                 exist_profile = True
-            except profile.DoesNotExist:
+            except UserProfile.DoesNotExist:
                 exist_profile = False
             
             data = response.data
