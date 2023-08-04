@@ -1,8 +1,7 @@
 import uuid
 from django.utils import timezone
 from django.db import models
-
-from App_auth.models import CustomUser
+from App_auth.models import CustomUser, UserProfile
 
 
 class MonthlyTaxPaymentCheck(models.Model):
@@ -23,12 +22,31 @@ class Notification(models.Model):
     tax_payer = models.ForeignKey('TaxPayer', on_delete=models.CASCADE)
     message = models.CharField(max_length=200)
     sent_date = models.DateTimeField(auto_now_add=True)
+    seen = models.BooleanField(default=False)
 
     def __str__(self):
         return f"{self.tax_payer} - {self.message}"
     
     class Meta:
         ordering = ['-sent_date']
+
+def calculate_salary(total_salary):
+
+    if total_salary <= 400000:
+        tax_rate = 0.10
+        exemption_amount = 2500
+    elif total_salary <= 800000:
+        tax_rate = 0.15
+        exemption_amount = 5000
+    else:
+        tax_rate = 0.20
+        exemption_amount = 10000
+
+    salary_tax = (total_salary * tax_rate) - exemption_amount
+    final_salary = total_salary - salary_tax
+
+    return salary_tax
+
 
 
 class TaxPayer(models.Model):
@@ -81,3 +99,5 @@ class TaxPayer(models.Model):
         else:
             # Delete the notification if the taxpayer has made the payment
             Notification.objects.filter(tax_payer=self).delete()
+
+

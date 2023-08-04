@@ -5,3 +5,4 @@ from App_tax_payer.models import *
 admin.site.register(TaxPayer)
 admin.site.register(Notification)
 admin.site.register(MonthlyTaxPaymentCheck)
+

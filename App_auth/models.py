@@ -62,4 +62,5 @@ class UserProfile(models.Model):
     full_name = models.CharField(max_length=100)
     employee_id = models.CharField(max_length=50)
     salary = models.PositiveIntegerField(default=0)
+    tax = models.CharField(max_length=100)
 
