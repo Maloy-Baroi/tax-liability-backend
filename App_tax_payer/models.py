@@ -8,10 +8,15 @@ from App_auth.models import CustomUser
 class MonthlyTaxPaymentCheck(models.Model):
     tax_payer = models.ForeignKey('TaxPayer', on_delete=models.CASCADE)
     payment_date = models.DateField()
+    month_of_payment = models.IntegerField(default=1)
+    year_of_payment_month = models.IntegerField(default=2023)
     amount = models.DecimalField(max_digits=10, decimal_places=2)
 
     def __str__(self):
         return f"{self.tax_payer} - {self.payment_date}"
+    
+    class Meta:
+        ordering = ['-payment_date']
 
 
 class Notification(models.Model):
@@ -21,6 +26,9 @@ class Notification(models.Model):
 
     def __str__(self):
         return f"{self.tax_payer} - {self.message}"
+    
+    class Meta:
+        ordering = ['-sent_date']
 
 
 class TaxPayer(models.Model):
