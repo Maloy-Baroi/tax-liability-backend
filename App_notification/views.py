@@ -90,6 +90,23 @@ class NotificationData(APIView):
         except TaxPayer.DoesNotExist:
             return Response({'notification_list': []})
         
+
+class NoticeData(APIView):
+    permission_classes = [IsAuthenticated]
+
+    def get(self, request, format=None):
+        try:
+            user = request.user
+            tax_payer = TaxPayer.objects.get(user=user)
+            notice_list = WarningLetter.objects.filter(warningFor=tax_payer)
+            for n in notice_list:
+                n.is_read = True
+                n.save()
+            serializer = WarningLetterSerializer(notice_list, many=True)
+            return Response({'notice_list': serializer.data})
+        except TaxPayer.DoesNotExist:
+            return Response({'notice_list': []})
+
         
 class TaxPaymentHistory(APIView):
     permission_classes = [IsAuthenticated]

@@ -12,3 +12,6 @@ class WarningLetter(models.Model):
 
     def __str__(self):
         return f"Warning Letter for {self.warningFor.full_name} - {self.subject}"
+    
+    class Meta:
+        ordering = ['-issued_date']
