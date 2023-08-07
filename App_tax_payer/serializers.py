@@ -18,3 +18,7 @@ class MonthlyTaxPaymentCheckSerializer(serializers.ModelSerializer):
     class Meta:
         model = MonthlyTaxPaymentCheck
         fields = '__all__'
+        
+        extra_kwargs = {
+            'tax_payer': {'read_only': True}
+        }

@@ -128,3 +128,14 @@ class TaxPaymentHistory(APIView):
                              })
         except Exception as e:
             return Response({'error': str(e)}, status=500)
+        
+        
+class PaymentCreateView(generics.ListCreateAPIView):
+    queryset = MonthlyTaxPaymentCheck.objects.all()
+    serializer_class = MonthlyTaxPaymentCheckSerializer
+    permission_classes = [IsAuthenticated]
+
+    def perform_create(self, serializer):
+        user = self.request.user
+        tax_payer = TaxPayer.objects.get(user=user.id)
+        serializer.save(tax_payer=tax_payer)

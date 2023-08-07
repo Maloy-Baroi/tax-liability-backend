@@ -6,7 +6,7 @@ from App_auth.models import CustomUser, UserProfile
 
 class MonthlyTaxPaymentCheck(models.Model):
     tax_payer = models.ForeignKey('TaxPayer', on_delete=models.CASCADE)
-    payment_date = models.DateField()
+    payment_date = models.DateField(auto_now_add=True)
     month_of_payment = models.IntegerField(default=1)
     year_of_payment_month = models.IntegerField(default=2023)
     amount = models.DecimalField(max_digits=10, decimal_places=2)
